@@ -11,6 +11,6 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="amasty_recurring_order_placed_terminal5">
-        <observer name="amasty_recurring_terminal5" instance="SDM\Altapay\Observer\Order\CreateSubscriptions" />
+        <observer name="amasty_recurring_terminal5" instance="Altapay\RecurringPayments\Observer\Order\CreateSubscriptions" />
     </event>
 </config>

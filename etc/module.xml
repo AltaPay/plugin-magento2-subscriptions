@@ -13,6 +13,7 @@
     <module name="Altapay_RecurringPayments" setup_version="1.0.0">
         <sequence>
             <module name="SDM_Altapay"/>
+            <module name="Amasty_RecurringPayments"/>
         </sequence>
     </module>
 </config>
