@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Altapay Module for Magento 2.x.
+ *
+ * Copyright © 2021 Altapay. All rights reserved.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Altapay\RecurringPayments\Model;
 
 use Amasty\Base\Model\ConfigProviderAbstract;
