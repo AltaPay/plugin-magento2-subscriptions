@@ -20,6 +20,9 @@ use Amasty\RecurringPayments\Model\Subscription\HandleOrder\HandleOrderContextFa
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\App\Emulation;
 use Magento\Store\Model\StoreManagerInterface;
+use SDM\Altapay\Api\Subscription\ChargeSubscription;
+use SDM\Altapay\Model\SystemConfig;
+use Amasty\RecurringPayments\Model\ResourceModel\Transaction\CollectionFactory;
 
 class HandleSubscriptionCharge implements HandleSubscriptionInterface
 {
@@ -55,13 +58,25 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
      */
     private $recurringTransactionGenerator;
 
+    /**
+     * @var CollectionFactory
+     */
+    private $transactionCollectionFactory;
+
+    /**
+     * @var SystemConfig
+     */
+    private $systemConfig;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         Emulation $emulation,
         StoreManagerInterface $storeManager,
         CompositeHandlerFactory $compositeHandlerFactory,
         HandleOrderContextFactory $handleOrderContextFactory,
-        RecurringTransactionGeneratorInterface $recurringTransactionGenerator
+        RecurringTransactionGeneratorInterface $recurringTransactionGenerator,
+        CollectionFactory $transactionCollectionFactory,
+        SystemConfig $systemConfig
     ) {
         $this->orderRepository = $orderRepository;
         $this->emulation = $emulation;
@@ -69,6 +84,8 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
         $this->compositeHandlerFactory = $compositeHandlerFactory;
         $this->handleOrderContextFactory = $handleOrderContextFactory;
         $this->recurringTransactionGenerator = $recurringTransactionGenerator;
+        $this->transactionCollectionFactory = $transactionCollectionFactory;
+        $this->systemConfig    = $systemConfig;
     }
 
     /**
@@ -78,8 +95,12 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
     {
         $transactionId = uniqid(self::TRANSACTION_PREFIX, true);
 
+        /** @var \Amasty\RecurringPayments\Model\ResourceModel\Transaction\Collection $transactionCollection */
+        $transactionCollection = $this->transactionCollectionFactory->create();
         $order = $this->orderRepository->get($subscription->getOrderId());
-
+        $storeCode        = $order->getStore()->getCode();
+        $payment          = $order->getPayment();
+        $grandTotal       = (float)$order->getGrandTotal();
         $this->emulation->startEnvironmentEmulation($order->getStoreId());
         $this->storeManager->getStore()->setCurrentCurrencyCode($order->getOrderCurrencyCode());
 
@@ -90,6 +111,7 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
         /** @var CompositeHandler $compositeHandler */
         $compositeHandler = $this->compositeHandlerFactory->create();
         $compositeHandler->handle($handleOrderContext);
+
         $this->recurringTransactionGenerator->generate(
             (float)$handleOrderContext->getOrder()->getBaseGrandTotal(),
             $order->getIncrementId(),
@@ -104,7 +126,34 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
                 $subscription->getRemainingDiscountCycles() - 1
             );
         }
-
         $this->emulation->stopEnvironmentEmulation();
+        $select = $transactionCollection->getSelect();
+        $select->where('transaction_id = ?', $transactionId);
+        $getwayPaymentID = '';
+        /** @var TransactionInterface $transaction */
+        foreach ($transactionCollection as $transaction) {
+            $parentOrder = $this->orderRepository->get($transaction->getOrderId());
+            $getwayPaymentID = $parentOrder->getPayment()->getData('last_trans_id');
+        }
+        if($getwayPaymentID){
+            // create new call for charge subscription
+            $api = new ChargeSubscription($this->systemConfig->getAuth($storeCode));
+            $api->setTransaction($payment->getLastTransId());
+            $api->setAmount(round($grandTotal, 2));
+            try {
+                $logger->info(print_r("I am in Subscription Reservartion",true));
+                $response = $api->call();
+            } catch (ResponseHeaderException $e) {
+                $this->altapayLogger->addInfoLog('Info', $e->getHeader());
+                $this->altapayLogger->addCriticalLog('Response header exception', $e->getMessage());
+                throw $e;
+            } catch (\Exception $e) {
+                $this->altapayLogger->addCriticalLog('Exception', $e->getMessage());
+            }
+            if (!isset($response->Result) || $response->Result != 'Success') {
+                throw new \InvalidArgumentException('Could not capture subscription');
+            }
+        }
+
     }
 }
