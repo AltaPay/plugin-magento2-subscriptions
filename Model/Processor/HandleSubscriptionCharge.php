@@ -78,14 +78,14 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
         CollectionFactory $transactionCollectionFactory,
         SystemConfig $systemConfig
     ) {
-        $this->orderRepository = $orderRepository;
-        $this->emulation = $emulation;
-        $this->storeManager = $storeManager;
-        $this->compositeHandlerFactory = $compositeHandlerFactory;
-        $this->handleOrderContextFactory = $handleOrderContextFactory;
+        $this->orderRepository               = $orderRepository;
+        $this->emulation                     = $emulation;
+        $this->storeManager                  = $storeManager;
+        $this->compositeHandlerFactory       = $compositeHandlerFactory;
+        $this->handleOrderContextFactory     = $handleOrderContextFactory;
         $this->recurringTransactionGenerator = $recurringTransactionGenerator;
-        $this->transactionCollectionFactory = $transactionCollectionFactory;
-        $this->systemConfig    = $systemConfig;
+        $this->transactionCollectionFactory  = $transactionCollectionFactory;
+        $this->systemConfig                  = $systemConfig;
     }
 
     /**
@@ -97,10 +97,11 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
 
         /** @var \Amasty\RecurringPayments\Model\ResourceModel\Transaction\Collection $transactionCollection */
         $transactionCollection = $this->transactionCollectionFactory->create();
-        $order = $this->orderRepository->get($subscription->getOrderId());
-        $storeCode        = $order->getStore()->getCode();
-        $payment          = $order->getPayment();
-        $grandTotal       = (float)$order->getGrandTotal();
+
+        $order      = $this->orderRepository->get($subscription->getOrderId());
+        $storeCode  = $order->getStore()->getCode();
+        $payment    = $order->getPayment();
+        $grandTotal = (float)$order->getGrandTotal();
         $this->emulation->startEnvironmentEmulation($order->getStoreId());
         $this->storeManager->getStore()->setCurrentCurrencyCode($order->getOrderCurrencyCode());
 
@@ -127,15 +128,14 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
             );
         }
         $this->emulation->stopEnvironmentEmulation();
-        $select = $transactionCollection->getSelect();
-        $select->where('transaction_id = ?', $transactionId);
-        $getwayPaymentID = '';
-        /** @var TransactionInterface $transaction */
-        foreach ($transactionCollection as $transaction) {
-            $parentOrder = $this->orderRepository->get($transaction->getOrderId());
-            $getwayPaymentID = $parentOrder->getPayment()->getData('last_trans_id');
-        }
-        if($getwayPaymentID){
+        $select           = $transactionCollection->addFieldToSelect('order_id')
+                                                  ->addFieldToFilter('transaction_id', $transactionId)
+                                                  ->getFirstItem();
+        $data             = $select->getData();
+        $parentOrder      = $this->orderRepository->get($data['order_id']);
+        $gatewayPaymentID = $parentOrder->getPayment()->getData('last_trans_id');
+
+        if ($gatewayPaymentID) {
             // create new call for charge subscription
             $api = new ChargeSubscription($this->systemConfig->getAuth($storeCode));
             $api->setTransaction($payment->getLastTransId());
