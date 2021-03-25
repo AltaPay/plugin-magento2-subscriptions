@@ -41,12 +41,12 @@ class CreateSubscription
         EmailNotifier $emailNotifier
     ) {
         $this->subscriptionManagement = $subscriptionManagement;
-        $this->config = $config;
-        $this->emailNotifier = $emailNotifier;
+        $this->config                 = $config;
+        $this->emailNotifier          = $emailNotifier;
     }
 
     /**
-     * @param AbstractItem $item
+     * @param AbstractItem   $item
      * @param OrderInterface $order
      *
      * @return SubscriptionInterface
@@ -55,7 +55,7 @@ class CreateSubscription
         AbstractItem $item,
         OrderInterface $order
     ): SubscriptionInterface {
-        $subscription = $this->subscriptionManagement->generateSubscription(
+        $subscription   = $this->subscriptionManagement->generateSubscription(
             $order,
             $item
         );
@@ -66,6 +66,11 @@ class CreateSubscription
             $subscription,
             $order
         );
+
+        $payment    = $order->getPayment();
+        $initialFee = $subscription->getData('initial_fee');
+        $payment->setAdditionalInformation('initial_fee', $initialFee);
+        $payment->save();
 
         if ($this->config->isNotifySubscriptionPurchased((int)$subscription->getStoreId())) {
             $template = $this->config->getEmailTemplateSubscriptionPurchased((int)$subscription->getStoreId());
