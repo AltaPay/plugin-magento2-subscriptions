@@ -13,4 +13,7 @@
     <event name="amasty_recurring_order_placed_terminal5">
         <observer name="amasty_recurring_terminal5" instance="Altapay\RecurringPayments\Observer\Order\CreateSubscriptions" />
     </event>
+    <event name="controller_action_predispatch_checkout_index_index">
+        <observer name="amasty_recurring_validate_cart" instance="Altapay\RecurringPayments\Observer\ValidateCartObserver" />
+    </event>
 </config>
