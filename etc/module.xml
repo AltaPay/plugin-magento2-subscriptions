@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * AltaPay Recurring Payments Module for Magento 2.x.
+ *
+ * Copyright © 2021 AltaPay. All rights reserved.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Altapay_RecurringPayments" setup_version="1.0.0">
+        <sequence>
+            <module name="SDM_Altapay"/>
+            <module name="Amasty_RecurringPayments"/>
+        </sequence>
+    </module>
+</config>

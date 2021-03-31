@@ -1,0 +1,20 @@
+{
+    "name": "altapay/magento2-subscriptions",
+    "license": "MIT",
+    "description": "AltaPay: Payments less complicated",
+    "version": "1.0.0",
+     "require": {
+          "php": "^7.1.0",
+          "altapay/magento2-community":"^3.1.7",
+          "amasty/recurring-payments": "^1.6.2",
+          "amasty/base": ">=1.7.2"
+    },
+    "type": "magento2-module",
+    "autoload": {
+      "files": [ "registration.php" ],
+      "psr-4": {
+        "Altapay\\RecurringPayments\\": ""
+      }
+    }
+  }
+  
