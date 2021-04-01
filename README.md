@@ -2,11 +2,12 @@
 
 Altapay has made it much easier for you as merchant/developer to receive secure subscription/recurring payments in your Magento2.3.x web shop.
 
-== Change log ==
+## Change Log
 
-** Version 1.0.0
+###1.0.0
+---
 
-    * First Release
+- Add support for Amasty subscription plugin
 
 ## Dependencies
 
