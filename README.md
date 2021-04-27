@@ -4,6 +4,10 @@ Altapay has made it much easier for you as merchant/developer to receive secure 
 
 ## Change Log
 
+### 1.0.1
+
+- Support subscription and regular product in a cart
+
 ### 1.0.0
 
 - Add support for Amasty subscription plugin
