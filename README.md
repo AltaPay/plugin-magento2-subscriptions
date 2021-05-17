@@ -4,6 +4,10 @@ Altapay has made it much easier for you as merchant/developer to receive secure 
 
 ## Change Log
 
+### 1.0.2
+
+- Remove composer.lock file
+
 ### 1.0.1
 
 - Support subscription and regular product in a cart
