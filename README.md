@@ -6,7 +6,7 @@ Altapay has made it much easier for you as merchant/developer to receive secure 
 
 ### 1.0.2
 
-- False warnings appear from unnecessary security scans because of the composer.lock file
+- Fix security warnings due to vulnerabilities in the dependencies
 
 ### 1.0.1
 
