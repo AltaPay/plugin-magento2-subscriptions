@@ -2,10 +2,10 @@
     "name": "altapay/magento2-subscriptions",
     "license": "MIT",
     "description": "AltaPay: Payments less complicated",
-    "version": "1.0.1",
+    "version": "1.0.2",
      "require": {
        "php": "^7.1.0",
-       "altapay/magento2-community":"^3.1.7"
+       "altapay/magento2-community":"^3.2.3"
     },
     "repositories": [
       {
