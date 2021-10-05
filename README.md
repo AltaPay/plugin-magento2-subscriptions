@@ -2,20 +2,6 @@
 
 Altapay has made it much easier for you as merchant/developer to receive secure subscription/recurring payments in your Magento2.3.x web shop.
 
-## Change Log
-
-### 1.0.2
-
-- Fix security warnings due to vulnerabilities in the dependencies
-
-### 1.0.1
-
-- Support subscription and regular product in a cart
-
-### 1.0.0
-
-- Add support for Amasty subscription plugin
-
 ## Dependencies
 
 ### Download amasty packages
@@ -27,3 +13,18 @@ Altapay has made it much easier for you as merchant/developer to receive secure 
 ![Download](docs/download-amasty.png)
 - `mkdir -p vendor`
 - `cp -r ~/Downloads/SubscriptionsRecurringPaymentsforMagento2-1/upload/app/code/Amasty vendor`
+
+## Changelog
+
+See [Changelog](CHANGELOG.md) for all the release notes.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+## Documentation
+
+For more details please see [AltaPay docs](https://documentation.altapay.com/)
+
+## Contact
+Feel free to contact our support team (support@altapay.com) if you need any assistance.
