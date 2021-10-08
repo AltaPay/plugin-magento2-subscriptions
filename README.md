@@ -1,20 +1,12 @@
-# Altapay for Magento2 Recurring Payments
+# AltaPay for Magento 2 Recurring Payments
 
-Altapay has made it much easier for you as merchant/developer to receive secure subscription/recurring payments in your Magento2.3.x web shop.
+AltaPay has made it much easier for you as merchant/developer to receive secure subscription/recurring payments in your Magento 2 web shop.
 
-## Change Log
+[![Latest Stable Version](http://poser.pugx.org/altapay/magento2-subscriptions/v)](https://packagist.org/packages/altapay/magento2-subscriptions)
+[![License](http://poser.pugx.org/altapay/magento2-subscriptions/license)](https://packagist.org/packages/altapay/magento2-subscriptions)
 
-### 1.0.2
-
-- Fix security warnings due to vulnerabilities in the dependencies
-
-### 1.0.1
-
-- Support subscription and regular product in a cart
-
-### 1.0.0
-
-- Add support for Amasty subscription plugin
+## Compatibility
+- Magento 2.3 and above
 
 ## Dependencies
 
@@ -27,3 +19,27 @@ Altapay has made it much easier for you as merchant/developer to receive secure 
 ![Download](docs/download-amasty.png)
 - `mkdir -p vendor`
 - `cp -r ~/Downloads/SubscriptionsRecurringPaymentsforMagento2-1/upload/app/code/Amasty vendor`
+
+## Installation
+Run the following commands in Magento 2 root folder:
+
+    composer require altapay/magento2-subscriptions
+    php bin/magento setup:upgrade
+    php bin/magento setup:di:compile
+    php bin/magento setup:static-content:deploy
+
+
+## Changelog
+
+See [Changelog](CHANGELOG.md) for all the release notes.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+## Documentation
+
+For more details please see [AltaPay docs](https://documentation.altapay.com/)
+
+## Contact
+Feel free to contact our support team (support@altapay.com) if you need any assistance.
