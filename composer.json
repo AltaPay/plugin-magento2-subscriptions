@@ -4,7 +4,7 @@
     "description": "AltaPay: Payments less complicated",
     "version": "1.0.4",
      "require": {
-       "php": "^7.1.0",
+       "php": "^7.3.0",
        "altapay/magento2-community":"^3.2.3"
     },
     "repositories": [

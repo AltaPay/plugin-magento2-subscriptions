@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8bf3ab78938dd1c76dcf7541e0e0da67",
+    "content-hash": "805545d02f1b3b44abd6a87363a42cc2",
     "packages": [
         {
             "name": "altapay/magento2-community",
@@ -4599,7 +4599,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1.0"
+        "php": "^7.3.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
