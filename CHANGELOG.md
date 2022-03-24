@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.4]
+
+- Fix security warnings due to vulnerabilities in the dependencies
+
 ## [1.0.3]
 
 - Fix security warnings due to vulnerabilities in the dependencies
