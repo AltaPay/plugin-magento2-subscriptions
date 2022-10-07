@@ -31,5 +31,8 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Payment\Model\Checks\TotalMinMax">
+        <plugin name="Altapay_RecurringPayment::MinMaxTotalCheck" type="Altapay\RecurringPayments\Plugin\Payment\Checks\TotalMinMaxPlugin"/>
+    </type>
     <preference for="Amasty\RecurringPayments\Model\Config" type="Altapay\RecurringPayments\Model\ConfigSys"/>
 </config>
