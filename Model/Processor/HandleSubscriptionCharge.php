@@ -9,7 +9,7 @@
 
 namespace Altapay\RecurringPayments\Model\Processor;
 
-use Amasty\RecurringPayments\Api\Generators\RecurringTransactionGeneratorInterface;
+use Altapay\RecurringPayments\Model\Processor\Transaction\TransactionGeneratorPart;
 use Amasty\RecurringPayments\Api\Processors\HandleSubscriptionInterface;
 use Amasty\RecurringPayments\Api\Subscription\SubscriptionInterface;
 use Amasty\RecurringPayments\Model\Config\Source\Status;
@@ -20,7 +20,7 @@ use Amasty\RecurringPayments\Model\Subscription\HandleOrder\HandleOrderContextFa
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\App\Emulation;
 use Magento\Store\Model\StoreManagerInterface;
-use SDM\Altapay\Api\Subscription\ChargeSubscription;
+use Altapay\Api\Subscription\ChargeSubscription;
 use SDM\Altapay\Model\SystemConfig;
 use SDM\Altapay\Logger\Logger;
 
@@ -54,9 +54,9 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
     private $handleOrderContextFactory;
 
     /**
-     * @var RecurringTransactionGeneratorInterface
+     * @var TransactionGeneratorPart
      */
-    private $recurringTransactionGenerator;
+    private $transactionGeneratorPart;
 
     /**
      * @var SystemConfig
@@ -86,7 +86,7 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
         StoreManagerInterface $storeManager,
         CompositeHandlerFactory $compositeHandlerFactory,
         HandleOrderContextFactory $handleOrderContextFactory,
-        RecurringTransactionGeneratorInterface $recurringTransactionGenerator,
+        TransactionGeneratorPart $transactionGeneratorPart,
         SystemConfig $systemConfig,
         Logger $altapayLogger
     ) {
@@ -95,7 +95,7 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
         $this->storeManager                  = $storeManager;
         $this->compositeHandlerFactory       = $compositeHandlerFactory;
         $this->handleOrderContextFactory     = $handleOrderContextFactory;
-        $this->recurringTransactionGenerator = $recurringTransactionGenerator;
+        $this->transactionGeneratorPart = $transactionGeneratorPart;
         $this->systemConfig                  = $systemConfig;
         $this->altapayLogger                 = $altapayLogger;
     }
@@ -120,16 +120,8 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
             $handleOrderContext->setTransactionId($transactionId);
             /** @var CompositeHandler $compositeHandler */
             $compositeHandler = $this->compositeHandlerFactory->create();
+            $compositeHandler->addPart($this->transactionGeneratorPart, 'recurringpayment_transaction', 'quote');
             $compositeHandler->handle($handleOrderContext);
-
-            $this->recurringTransactionGenerator->generate(
-                (float)$handleOrderContext->getOrder()->getBaseGrandTotal(),
-                $order->getIncrementId(),
-                $order->getOrderCurrencyCode(),
-                $transactionId,
-                Status::SUCCESS,
-                $subscription->getSubscriptionId()
-            );
 
             if ($subscription->getRemainingDiscountCycles() > 0) {
                 $subscription->setRemainingDiscountCycles(

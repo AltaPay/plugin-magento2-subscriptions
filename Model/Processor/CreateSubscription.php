@@ -9,7 +9,7 @@
 
 namespace Altapay\RecurringPayments\Model\Processor;
 
-use Amasty\RecurringPayments\Model\Subscription\EmailNotifier;
+use Amasty\RecurringPayments\Model\Subscription\Email\EmailNotifier;
 use Amasty\RecurringPayments\Api\Subscription\SubscriptionInterface;
 use Amasty\RecurringPayments\Model\Config;
 use Amasty\RecurringPayments\Model\SubscriptionManagement;

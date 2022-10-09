@@ -11,6 +11,7 @@ namespace Altapay\RecurringPayments\Model\Config;
 
 use Amasty\RecurringPayments\Api\Config\ValidatorInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
 
 class ConfigurationValidator implements ValidatorInterface
 {
@@ -29,7 +30,7 @@ class ConfigurationValidator implements ValidatorInterface
      */
     public function enumerateConfigurationIssues(): \Generator
     {
-        if (!$this->scopeConfig->isSetFlag('payment/terminal5/active')) {
+        if (!$this->scopeConfig->isSetFlag('payment/terminal5/active', ScopeInterface::SCOPE_STORE)) {
             yield __('Credit Card payment method is not enabled');
         }
     }

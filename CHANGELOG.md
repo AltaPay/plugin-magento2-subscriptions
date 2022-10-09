@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.6]
+
+- Fix subscription emails not being triggered
+
 ## [1.0.5]
 
 - Fix security warnings due to vulnerabilities in the dependencies
