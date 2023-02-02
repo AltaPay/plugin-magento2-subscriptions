@@ -134,6 +134,15 @@ class HandleSubscriptionCharge implements HandleSubscriptionInterface
             $api = new ChargeSubscription($this->systemConfig->getAuth($storeCode));
             $api->setTransaction($payment->getLastTransId());
             $api->setAmount((float)$handleOrderContext->getOrder()->getBaseGrandTotal());
+            if($agreementDetail['type'] === "unscheduled") {
+                $api->setAgreement( 
+                    [
+                        "agreement_type" =>  $agreementDetail['type'],
+                        "unscheduled_type" =>  $agreementDetail['unscheduled_type']
+                    ]);
+            } else {
+                $api->setAgreement(["agreement_type" =>  $agreementDetail['type']]);
+            }
             try {
                 $response = $api->call();
             } catch (ResponseHeaderException $e) {
