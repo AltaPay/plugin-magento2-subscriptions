@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+##[unreleased]
+
+- Add configuration field for Agreement Type
+
 ## [1.0.6]
 
 - Fix subscription emails not being triggered
