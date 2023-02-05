@@ -17,6 +17,7 @@
                     <label>Terminal #5 For recurring and subscription</label>
                     <field id="agreementtype" translate="label comment" type="select" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Agreement Type:</label>
+                        <comment>There are three different types of agreements that can be established between merchant and customers. Ensure token control is enable if using unscheduled agreements.</comment>
                         <config_path>payment/terminal5/agreementtype</config_path>
                         <source_model>Altapay\RecurringPayments\Model\Config\Source\AgreementType</source_model>
                     </field>
