@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.8]
 
 - Add configuration field for Agreement Type
 
