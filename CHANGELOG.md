@@ -1,9 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-##[unreleased]
+## [unreleased]
 
 - Add configuration field for Agreement Type
+
+## [1.0.7]
+
+- Fix security warnings due to vulnerabilities in the dependencies
 
 ## [1.0.6]
 
