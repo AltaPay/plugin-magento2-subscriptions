@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.9]
+
+- Update dependency version for `altapay/magento2-community` 
+
 ## [1.0.8]
 
 - Add configuration field for Agreement Type
