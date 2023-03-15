@@ -5,7 +5,7 @@
     "version": "1.0.9",
      "require": {
        "php": "^7.3 || ^8.1",
-       "altapay/magento2-community":"^3.6.x"
+       "altapay/magento2-community":"^3.6"
     },
     "repositories": [
       {
