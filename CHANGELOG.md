@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.0]
+
+- Update dependencies to resolve security vulnerabilities 
+
 ## [1.0.9]
 
 - Update dependency version for `altapay/magento2-community` 
